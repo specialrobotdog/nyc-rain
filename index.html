@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NYC Rain Checker</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+    #weatherStatus { font-size: 1.5em; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Is it raining in New York City?</h1>
+  <div id="weatherStatus">Loading...</div>
+
+  <script>
+    // Replace with your actual OpenWeatherMap API key
+    const API_KEY = '1a02c7ba1d93b97b3ae5499698dcd37a';
+    // Query for New York City weather data (units can be adjusted as needed)
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=New+York&appid=${API_KEY}&units=metric`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        // Check if the weather conditions indicate rain
+        const weatherDescription = data.weather[0].main.toLowerCase();
+        const isRaining = weatherDescription.includes('rain');
+        const status = isRaining
+          ? 'It is currently raining in New York City!'
+          : 'It is not raining in New York City.';
+
+        document.getElementById('weatherStatus').textContent = status;
+      })
+      .catch(error => {
+        console.error('Error fetching weather data:', error);
+        document.getElementById('weatherStatus').textContent = 'Error retrieving weather data.';
+      });
+  </script>
+</body>
+</html>
